@@ -34,6 +34,7 @@ export const useExpenses = (initialState: Expense[]) => {
     addExpense,
     removeExpense,
     updateExpense,
+    setExpenses,
     expenses,
     total,
   };

@@ -4,6 +4,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "../ui/button";
 import { Pencil, Trash2 } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
+import Link from "next/link";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -112,13 +113,13 @@ export const columns: ColumnDef<Budget>[] = [
     header: () => <div className="text-left">Acciones</div>,
     cell: ({ row }) => {
       const budget = row.original;
-      console.log("Budget:", budget);
-      
+
       return (
         <div className="flex space-x-2">
-          <Button variant="ghost" className="h-8 w-8 p-0">
-            <span className="sr-only">Editar</span>
-            <Pencil className="h-4 w-4" />
+          <Button variant="ghost" className="h-8 w-8 p-0" asChild>
+            <Link href={`/budgets/${budget.id}`}>
+              <Pencil className="h-4 w-4" />
+            </Link>
           </Button>
           <Button variant="ghost" className="h-8 w-8 p-0">
             <span className="sr-only">Eliminar</span>

@@ -89,7 +89,6 @@ export function DataTable<TData, TValue>({
               .getAllColumns()
               .filter((column) => column.getCanHide())
               .map((column) => {
-                {console.log(column.id)}
 
                 return (
                   <DropdownMenuCheckboxItem
