@@ -1,5 +1,16 @@
 "use client";
 
+type ColumnId = 'id' | 'budgetAmount' | 'spentAmount' | 'remainingAmount' | 'period' | 'actions';
+
+const columnsTranslation: Record<ColumnId, string> = {
+  id: "ID",
+  budgetAmount: "Presupuesto",
+  spentAmount: "Gastado",
+  remainingAmount: "Restante",
+  period: "Periodo",
+  actions: "Acciones",
+};
+
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -22,7 +33,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -30,6 +40,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useState } from "react";
+import { Columns3 } from "lucide-react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -65,12 +76,12 @@ export function DataTable<TData, TValue>({
   });
 
   return (
-    <div>
+    <div className="w-full border rounded-md shadow-md px-4">
       <div className="flex items-center py-4">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
-              Columns
+            <Button variant="ghost" className="ml-auto">
+              <Columns3/>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
@@ -78,6 +89,8 @@ export function DataTable<TData, TValue>({
               .getAllColumns()
               .filter((column) => column.getCanHide())
               .map((column) => {
+                {console.log(column.id)}
+
                 return (
                   <DropdownMenuCheckboxItem
                     key={column.id}
@@ -87,7 +100,7 @@ export function DataTable<TData, TValue>({
                       column.toggleVisibility(!!value)
                     }
                   >
-                    {column.id}
+                    {columnsTranslation[column.id as ColumnId]}
                   </DropdownMenuCheckboxItem>
                 );
               })}
@@ -144,27 +157,29 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <div className="flex-1 text-sm text-muted-foreground">
-        {table.getFilteredSelectedRowModel().rows.length} of{" "}
-        {table.getFilteredRowModel().rows.length} row(s) selected.
-      </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-        >
-          Previous
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-        >
-          Next
-        </Button>
+      <div className="flex items-center justify-between py-4">
+        <div className="flex-1 text-sm text-muted-foreground">
+          {table.getFilteredSelectedRowModel().rows.length} of{" "}
+          {table.getFilteredRowModel().rows.length} row(s) selected.
+        </div>
+        <div className="flex items-center justify-end space-x-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
+            Anterior
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+          >
+            Siguiente
+          </Button>
+        </div>
       </div>
     </div>
   );

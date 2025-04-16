@@ -1,27 +1,12 @@
 "use client";
 
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@radix-ui/react-dropdown-menu";
 import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "../ui/button";
-import { MoreHorizontal, Pencil, Trash2 } from "lucide-react";
-import { ArrowUpDown } from "lucide-react";
+import { Pencil, Trash2 } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
-export type Payment = {
-  id: string;
-  amount: number;
-  status: "pending" | "processing" | "success" | "failed";
-  email: string;
-};
 
 type Month =
   | "Enero"
@@ -127,19 +112,20 @@ export const columns: ColumnDef<Budget>[] = [
     header: () => <div className="text-left">Acciones</div>,
     cell: ({ row }) => {
       const budget = row.original;
+      console.log("Budget:", budget);
       
       return (
         <div className="flex space-x-2">
           <Button variant="ghost" className="h-8 w-8 p-0">
-        <span className="sr-only">Editar</span>
-        <Pencil className="h-4 w-4" />
+            <span className="sr-only">Editar</span>
+            <Pencil className="h-4 w-4" />
           </Button>
           <Button variant="ghost" className="h-8 w-8 p-0">
-        <span className="sr-only">Eliminar</span>
-        <Trash2 className="h-4 w-4" />
+            <span className="sr-only">Eliminar</span>
+            <Trash2 className="h-4 w-4 text-red-600" />
           </Button>
         </div>
       );
-        },
-      },
-    ];
+    },
+  },
+];
