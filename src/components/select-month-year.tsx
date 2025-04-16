@@ -15,11 +15,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
-import { format } from "date-fns";
+import { format, parse } from "date-fns";
 import { es } from "date-fns/locale";
 
-export function SelectMonthYear() {
-  const [date, setDate] = useState<Date>(new Date());
+export function SelectMonthYear({ initialValue }: { initialValue: string }) {
+  const [date, setDate] = useState<Date>(() => {
+    if (initialValue) {
+      return parse(initialValue, "MMMM yyyy", new Date(), { locale: es });
+    }
+    return new Date();
+  });
 
   return (
     <Popover>
