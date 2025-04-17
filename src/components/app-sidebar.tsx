@@ -66,6 +66,11 @@ const data = {
       url: "/debts",
       icon: IconCreditCard,
     },
+    {
+      title: "Categorías",
+      url: "/categories",
+      icon: IconFolder,
+    }
   ],
   navClouds: [
     {
