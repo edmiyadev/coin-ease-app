@@ -59,36 +59,36 @@ export default function BudgetsPage() {
       header: "Acciones",
       cell: ({ row }) => (
         <div className="flex items-center gap-2">
-          <Link
-            href={`/budgets/${row.original.id}`}
-            className="text-blue-500 hover:text-blue-700"
-          >
-            <Pencil />
-          </Link>
-          <button
+          <Button variant="ghost" asChild>
+            <Link
+              href={`/budgets/${row.original.id}`}
+              className="text-blue-500 hover:text-blue-700"
+            >
+              <Pencil />
+            </Link>
+          </Button>
+
+          <Button
+            variant="ghost"
             onClick={() => handleDelete(row.original.id)}
-            className="text-red-500 hover:text-red-700"
+            className="text-red-500 hover:text-red-700 cursor-pointer"
           >
             <Trash2 />
-          </button>
+          </Button>
         </div>
       ),
     },
   ];
 
   const handleDelete = (id: string) => {
-    // Mostrar confirmación antes de eliminar
     if (confirm("¿Estás seguro de que deseas eliminar este presupuesto?")) {
-      // Filtrar el presupuesto con el ID seleccionado
       setBudgetData((prevData) =>
         prevData.filter((budget) => budget.id !== id)
       );
 
-      // Mostrar notificación de éxito
       toast.success("Presupuesto eliminado con éxito");
     }
   };
-
 
   return (
     <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6 px-6">
