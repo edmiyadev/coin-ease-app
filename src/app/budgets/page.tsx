@@ -1,11 +1,17 @@
+"use client";
+
+import { useState } from "react";
 import { Budget, columns } from "@/components/budgets/columns";
 import { DataTable } from "@/components/budgets/data-table";
 import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
+import { Pencil, Plus, Trash2 } from "lucide-react";
 import Link from "next/link";
+import { toast } from "sonner";
+import { ColumnDef } from "@tanstack/react-table";
+
 // import { DataTable } from "@/components/data-table"; // example data-table
 
-const budgetData: Budget[] = [
+const initialBudgetData: Budget[] = [
   {
     id: "1",
     budgetAmount: 1500,
@@ -44,18 +50,61 @@ const budgetData: Budget[] = [
 ];
 
 export default function BudgetsPage() {
+  const [budgetData, setBudgetData] = useState<Budget[]>(initialBudgetData);
+
+  const columnsWithActions: ColumnDef<Budget>[] = [
+    ...columns,
+    {
+      accessorKey: "actions",
+      header: "Acciones",
+      cell: ({ row }) => (
+        <div className="flex items-center gap-2">
+          <Link
+            href={`/budgets/${row.original.id}`}
+            className="text-blue-500 hover:text-blue-700"
+          >
+            <Pencil />
+          </Link>
+          <button
+            onClick={() => handleDelete(row.original.id)}
+            className="text-red-500 hover:text-red-700"
+          >
+            <Trash2 />
+          </button>
+        </div>
+      ),
+    },
+  ];
+
+  const handleDelete = (id: string) => {
+    // Mostrar confirmación antes de eliminar
+    if (confirm("¿Estás seguro de que deseas eliminar este presupuesto?")) {
+      // Filtrar el presupuesto con el ID seleccionado
+      setBudgetData((prevData) =>
+        prevData.filter((budget) => budget.id !== id)
+      );
+
+      // Mostrar notificación de éxito
+      toast.success("Presupuesto eliminado con éxito");
+    }
+  };
+
+
   return (
     <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6 px-6">
       <div className="flex flex-col container mx-auto py-10">
         <div className="flex justify-end">
           <Button variant={"default"} className="mb-2" asChild>
-            <Link href="/budgets/new" className="flex items-center justify-center">
+            <Link
+              href="/budgets/new"
+              className="flex items-center justify-center"
+            >
               <Plus />
-               Crear Presupuesto
+              Crear Presupuesto
             </Link>
           </Button>
         </div>
-        <DataTable columns={columns} data={budgetData} />
+        <DataTable columns={columnsWithActions} data={budgetData} />
       </div>
     </div>
   );
