@@ -15,7 +15,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "../ui/textarea";
-import { Category } from "./columns";
+import { Category } from "@/types/category";
 
 // Sample category data - in a real app this would come from an API
 const categoriesData: Record<string, Category> = {

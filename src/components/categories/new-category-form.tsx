@@ -15,23 +15,6 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "../ui/textarea";
 
-type ExpenseProps = {
-  title: string;
-  description: string;
-  totalExpenses: number;
-  expenses: Expense[];
-  removeExpense: (id: string) => void;
-  updateExpense: (id: string, field: string, value: string) => void;
-  addExpense: () => void;
-};
-
-export type Expense = {
-  id: string;
-  category: string;
-  amount: string;
-  description: string;
-};
-
 export function NewCategoryForm() {
   const router = useRouter();
   const [name, setName] = useState("");

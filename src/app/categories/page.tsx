@@ -8,7 +8,7 @@ import { Pencil, Plus, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
 import { ColumnDef } from "@tanstack/react-table";
-import { Category } from "@/components/categories/columns";
+import { Category } from "@/types/category";
 
 // import { DataTable } from "@/components/data-table"; // example data-table
 

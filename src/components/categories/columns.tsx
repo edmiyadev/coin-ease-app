@@ -2,14 +2,7 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { Checkbox } from "@/components/ui/checkbox";
-
-export type Category = {
-  id: string;
-  name: string;
-  description: string;
-  typeTransaction: string;
-  typeFrecuency: string;
-};
+import { Category } from "@/types/category";
 
 export const columns: ColumnDef<Category>[] = [
   {
