@@ -1,58 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import Link from "next/link";
 import { columns } from "@/components/categories/columns";
 import { DataTable } from "@/components/categories/data-table";
 import { Button } from "@/components/ui/button";
 import { Pencil, Plus, Trash2 } from "lucide-react";
-import Link from "next/link";
 import { toast } from "sonner";
 import { ColumnDef } from "@tanstack/react-table";
 import { Category } from "@/types/category";
-
+import { useCategoryStore } from "@/store/CategoryStore";
 // import { DataTable } from "@/components/data-table"; // example data-table
 
-const initialCategoryData: Category[] = [
-  {
-    id: "1",
-    name: "Alimentación",
-    description: "Gastos relacionados con la alimentación",
-    typeTransaction: "Gasto",
-    typeFrecuency: "Fijo",
-  },
-  {
-    id: "2",
-    name: "Transporte",
-    description: "Gastos relacionados con el transporte",
-    typeTransaction: "Gasto",
-    typeFrecuency: "Fijo",
-  },
-  {
-    id: "3",
-    name: "Salidas y Entretenimiento",
-    description: "Gastos relacionados con el entretenimiento",
-    typeTransaction: "Gasto",
-    typeFrecuency: "Variable",
-  },
-  {
-    id: "4",
-    name: "Salud",
-    description: "Gastos relacionados con la salud",
-    typeTransaction: "Gasto",
-    typeFrecuency: "Fijo",
-  },
-  {
-    id: "5",
-    name: "Educación",
-    description: "Gastos relacionados con la educación",
-    typeTransaction: "Gasto",
-    typeFrecuency: "Fijo",
-  },
-];
-
 export default function CategoryPage() {
-  const [categoriesData, setCategoriesData] =
-    useState<Category[]>(initialCategoryData);
+  const { categories, deleteCategory } = useCategoryStore((state) => state);
 
   const columnsWithActions: ColumnDef<Category>[] = [
     ...columns,
@@ -84,12 +44,10 @@ export default function CategoryPage() {
 
   const handleDelete = (id: string) => {
     if (confirm("¿Estás seguro de que deseas eliminar este presupuesto?")) {
-      setCategoriesData((prevData) =>
-        prevData.filter((category) => category.id !== id)
-      );
-
-      toast.success("Categoria eliminado con éxito");
+      deleteCategory(id);
     }
+
+    toast.success("Categoria eliminado con éxito");
   };
 
   return (
@@ -106,7 +64,7 @@ export default function CategoryPage() {
             </Link>
           </Button>
         </div>
-        <DataTable columns={columnsWithActions} data={categoriesData} />
+        <DataTable columns={columnsWithActions} data={categories} />
       </div>
     </div>
   );
